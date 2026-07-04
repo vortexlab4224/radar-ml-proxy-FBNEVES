@@ -84,6 +84,16 @@ app.get('/api/product/:id', async (req, res) => {
   }
 });
 
+// GET /api/product/MLB33979786/items -> lista de vendedores concorrendo (fallback quando buy_box_winner vem vazio)
+app.get('/api/product/:id/items', async (req, res) => {
+  try {
+    const { status, data } = await mlGet('/products/' + req.params.id + '/items');
+    res.status(status).json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.get('/', (req, res) => res.send('Radar ML proxy no ar.'));
 
 const PORT = process.env.PORT || 3000;

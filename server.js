@@ -74,6 +74,16 @@ app.get('/api/user/:id', async (req, res) => {
   }
 });
 
+// GET /api/product/MLB33979786 -> ficha de catálogo (pra resolver o vendedor que está no buy box)
+app.get('/api/product/:id', async (req, res) => {
+  try {
+    const { status, data } = await mlGet('/products/' + req.params.id);
+    res.status(status).json(data);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.get('/', (req, res) => res.send('Radar ML proxy no ar.'));
 
 const PORT = process.env.PORT || 3000;
